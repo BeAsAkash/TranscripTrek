@@ -1,9 +1,3 @@
-"""
-Project Name: YouTube Transcript Summarizer
-YouTube Transcript Summarizer API
-"""
-
-
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 

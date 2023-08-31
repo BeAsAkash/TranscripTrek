@@ -1,4 +1,4 @@
-from youtube_transcript_api import YouTubeTranscriptApi
+from api import YouTubeTranscriptApi
 
 
 def get_transcript_of_yt_video(v_id):
