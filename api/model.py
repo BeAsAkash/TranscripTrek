@@ -2,9 +2,6 @@ import re
 import nltk
 import spacy
 from string import punctuation
-from transcript import get_transcript_of_yt_video
-from translate import g_translate
-from download import makeTextFile
 
 nltk.download('stopwords')
 
@@ -18,7 +15,7 @@ def text_summarizer(text):
     stop_words = stopwords.words('english')
 
     doc = nlp(text)
-    # tokens=[token.text for token in doc]
+
 
     word_frequencies = {}
     for word in doc:
@@ -56,48 +53,3 @@ def text_summarizer(text):
     return final_summary
 
 
-def nlp_model(v_id):
-
-    transcript = get_transcript_of_yt_video(v_id)
-
-    if (transcript == '0'):
-        return '0'
-
-    else:
-        transcript_size = len(transcript)
-
-        original_text = ' '.join([t['text'] for t in transcript])
-        original_text_length = len(original_text)
-
-        s_t = []
-
-        result = ""
-
-        for txt in range(0, transcript_size):
-            if (txt != 0 and txt % 100 == 0):
-                result += ' ' + transcript[txt]['text']
-                s_t.append(text_summarizer(result))
-                result = ""
-            else:
-                result += ' ' + transcript[txt]['text']
-
-            if (txt == transcript_size - 1):
-                result += ' ' + transcript[txt]['text']
-                s_t.append(text_summarizer(result))
-
-        english_summary = ' '.join(s_t) + '.'
-
-        final_summary_length = len(english_summary)
-
-        hindi_translated_summary = g_translate(english_summary, 'hi')
-
-        gujarati_translated_summary = g_translate(english_summary, 'gu')
-
-        # print(original_text_length, '-->', final_summary_length)
-        # print(final_smy)
-
-        makeTextFile("English", english_summary)
-        makeTextFile("Hindi", hindi_translated_summary)
-        makeTextFile("Gujarati", gujarati_translated_summary)
-
-        return original_text_length, final_summary_length, english_summary, hindi_translated_summary, gujarati_translated_summary
